@@ -191,6 +191,7 @@ enable_log = ["compio-log/enable_log"]
 console = [
     "compio-runtime/console",
     "compio-dispatcher?/console",
+    "compio-compat?/console",
     "runtime",
 ]
 
