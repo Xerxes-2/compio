@@ -197,6 +197,7 @@ console = [
 
 # Nightly features
 allocator_api = ["compio-buf/allocator_api", "compio-io?/allocator_api"]
+async_fn_track_caller = ["compio-compat?/async_fn_track_caller"]
 current_thread_id = ["compio-runtime?/current_thread_id"]
 linux_pidfd = ["compio-process?/linux_pidfd"]
 once_cell_try = [
@@ -216,6 +217,7 @@ try_trait_v2 = ["compio-buf/try_trait_v2"]
 windows_by_handle = ["compio-fs?/windows_by_handle"]
 nightly = [
     "allocator_api",
+    "async_fn_track_caller",
     "current_thread_id",
     "linux_pidfd",
     "once_cell_try",
