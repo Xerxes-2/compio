@@ -54,6 +54,10 @@ futures = ["dep:async-io", "dep:futures-util"]
 # Instrumentation for `tokio-console`. See `compio_runtime::console`.
 console = ["compio-runtime/console"]
 
+# Nightly features
+async_fn_track_caller = []
+nightly = ["async_fn_track_caller"]
+
 [[test]]
 name = "net"
 required-features = ["tokio"]

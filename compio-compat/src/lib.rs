@@ -5,6 +5,8 @@
 //! `tokio` or `smol`.
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(feature = "async_fn_track_caller", feature(async_fn_track_caller))]
+#![allow(unused_features)]
 #![warn(missing_docs)]
 #![deny(rustdoc::broken_intra_doc_links)]
 #![doc(
@@ -41,6 +43,15 @@ impl<A: Adapter> RuntimeCompat<A> {
     }
 
     /// Executes the given future on the runtime, driving it to completion.
+    ///
+    /// The task this reports to [`tokio-console`] is named `execute` and
+    /// attributed to this function, since [`#[track_caller]`][track-caller] is
+    /// a no-op on an `async fn`. The `async_fn_track_caller` nightly feature
+    /// attributes it to the `.await` of the future this returns instead.
+    ///
+    /// [`tokio-console`]: compio_runtime::console
+    /// [track-caller]: https://github.com/rust-lang/rust/issues/110011
+    #[cfg_attr(feature = "async_fn_track_caller", track_caller)]
     pub async fn execute<F: Future>(&self, f: F) -> F::Output {
         // The console has no kind of its own for this, and reports it the way
         // it reports a future the runtime blocks on, so the name is what tells
