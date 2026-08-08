@@ -22,7 +22,7 @@ use std::{
 };
 
 use compio_log::error;
-use compio_runtime::Runtime;
+use compio_runtime::{Runtime, SpawnMeta, console};
 use mod_use::mod_use;
 
 mod_use![sys];
@@ -42,6 +42,11 @@ impl<A: Adapter> RuntimeCompat<A> {
 
     /// Executes the given future on the runtime, driving it to completion.
     pub async fn execute<F: Future>(&self, f: F) -> F::Output {
+        // The console has no kind of its own for this, and reports it the way
+        // it reports a future the runtime blocks on, so the name is what tells
+        // the two apart.
+        let f = console::instrument_execute(SpawnMeta::capture().named("execute"), f);
+
         let waker = self.runtime.waker();
         let mut context = Context::from_waker(&waker);
         let mut future = std::pin::pin!(f);
